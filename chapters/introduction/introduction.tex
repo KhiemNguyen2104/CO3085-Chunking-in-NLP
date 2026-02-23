@@ -1,0 +1,60 @@
+\chapter{Introduction}
+\label{ch:intro}
+
+\textit{This chapter provides an overview of the thesis, outlining the motivation behind the research, the specific goals it aims to achieve, and the scope of its contributions. It sets the stage for the subsequent chapters by introducing the problem domain and the proposed solutions.}
+
+\section{Motivation}
+\label{sec:intro-motiv}
+
+Segmentation, especially for medical images, is a cornerstone of modern computational radiology, underpinning critical tasks such as computer-aided diagnosis, surgical planning, and quantitative analysis. The ability to precisely delineate organs and lesions is pivotal for clinicians to formulate effective treatment strategies, directly influencing patient outcomes. However, several obstacles remain specific to the field of medical image segmentation; three major challenges that are still witnessed in state-of-the-art constructions are limited amounts of data, abdominal organ inconsistency and variability, and structural imbalance or bias.
+
+Particularly, different medical scenarios require the segmentation of distinct anatomical structures or pathological regions, creating a dynamic set of requirements. This heterogeneity poses a significant challenge for fully automated deep learning models, which often struggle to generalize across diverse and shifting user needs. Furthermore, despite improvements in deep learning models, the majority of segmentation models rely heavily on large amounts of data for training, while practical scenarios show the opposite. Many segmentation tasks need to be tackled with limited data samples, particularly in medical images, where rich datasets of CT scans or MR images are difficult to achieve due to cost and data consistency constraints. These limitations have challenged deep learning models to adapt to data-scarce environments while guaranteeing good performance in segmentation or classification tasks. An evolution of methods has been proposed to tackle this challenge.
+
+Few-shot segmentation (FSS) was proposed as a promising solution to deal with data-scarce training environments, focusing on methods to boost models' ability to learn and adapt to unseen classes using a few labeled data samples of support classes. A harder variant of FSS, One-shot segmentation (OSS) indicates only one sample as the support to directly address the limited data problem but require more innovative and sophisticated solutions. Many methods and frameworks have been introduced in this field, but we want to focus on the impressive application of Prototypical Networks \cite{snell2017prototypical}, which is an appropriate choice to tackle FSS problems with embedding numeric vectors capturing contextual semantic information for similarity-based comparison. In this section, Adaptive Local Prototype Network (ALP-Net) \cite{ouyang2020self} is the current state-of-the-art (SOTA) framework that leverages Prototypical Networks in a dual-branch architecture to generate prototypes from the support set to segment the query image via pixel-wise similarity. Prototypical Networks indicate a simple idea with great effectiveness, but there is the dependency of models using prototype extraction \cite{wang2019panet, ouyang2020self,manna2024correlation,huang2023rethinking} on their encoder or feature extractor, which creates the prototypes. The extracting strategy affects the performance of the whole model; hence, solutions over the years have involved many architectures. Concisely, there are two main sections of encoders: CNN-based and Transformer-based. Convolutional Neural Networks (CNNs) \cite{goodfellow2016convolutional} perform well in capturing fine-grained details and local patterns in images, such as organs' boundaries and shapes, but are limited in long-range semantic capturing, such as positions of organs. Transformers \cite{vaswani2023attentionneed} were proposed with their capability in capturing global semantic information using attention mechanisms, which have many contributions in Natural Language Processing (NLP). A modern solution for segmentation tasks in medial images is Vision Transformer (ViT) \cite{dosovitskiy2020image} has shown promising results, leveraging self-attention mechanisms to capture long-range dependencies by dividing the input image into flattened patches as the input of an encoder having a Multi-Head Attention layer. However, in the case of medical image segmentation, Transformer-based models encounter difficulties dealing with limited data because of their large requirements in training samples to acquire good performance.
+
+Motivated by that, we propose LoGo as a novel local-global context awareness prototypical one-shot segmentation framework. At the core of this framework lies the Dual-Pathway LoGo Encoder, which addresses the trade-off between spatial precision and semantic abstraction in medical image segmentation. This encoder utilizes two distinct pathways: a local-grained pathway to preserve high-resolution spatial details for sharp boundary delineation, and a global contextual pathway to capture long-range dependencies and semantic positioning. To further enhance robustness under minimal annotation constraints, we employ a knowledge distillation strategy to initialize the encoder. By dual learning from pre-trained teacher networks, we provide the framework with a solid foundation distribution space that can boost the training process, especially in the one-shot conditions.
+
+On the other hand, there is another challenge of structural imbalance and bias within one-shot conditions. Particularly, in an abdominal image, the background is often too large compared to the foreground, which is a binary mask of organs that leads to a bias between the foreground and background in prototypes; limited amounts of data samples directly make the problem worse. To address this, where distinct class representations become indistinguishable, we introduce a marginal fairness prototype as a constrained optimizer. This component enforces equitable margins between class clusters, ensuring robust separation even when training samples are scarce.
+
+However, mean-based prototypes often overlook intra-class diversity and fail to capture the structural variability inherent in anatomical regions. Moreover, conventional one-shot segmentation methods relying solely on pixel-to-prototype similarity neglect spatial dependencies crucial to medical imagery, where neighboring pixels exhibit strong label correlations and local texture continuity encodes anatomical boundaries. To address this and translate these optimized representations into precise segmentation maps, we employ a pixel-wise similarity fusion mechanism. By integrating the global class prototypes with the fine-grained local patterns extracted by the encoder, this module enables the framework to generate spatially coherent predictions that sharply preserve intricate anatomical boundaries.
+
+\newpage
+
+\section{Goals}
+\label{sec:intro-goals}
+
+This study presents a novel one-shot segmentation framework, tailored for medical images, integrating synergistic components corresponding to three innovative contributions, a dual-pathway LoGo encoder responsible for capturing both fine-grained local details and global context to produce prototypes from support samples within a data-scarce training environment, enhanced by a distillation process that allows the encoder is more robust under limited supervision; a marginal fairness optimizer that mitigates the structural imbalance between foreground and background prototypes by improving intra-class compactness and inter-class separability; a similarity fusion process that yields with pixel-wise predictions that sharply preserve anatomical boundaries and shapes. To support this work, we introduce a solid foundation of theoretical background that is involved in the evolution of FSS as well as contrastive learning. A thorough literature review is conducted to examine the role of Prototypical Networks and related methodologies in medical image segmentation, facilitating a comparative evaluation of existing solutions. Finally, we conduct experimental validation. Experimental validation is performed on publicly available datasets comprising both MRI and CT scans, assessing the generalizability and effectiveness of the proposed model. Based on results, we propose innovative strategies that achieve state-of-the-art performance and conclude with key contributions, discussing implications, and identifying promising avenues for future research.
+
+\newpage
+
+\section{Scope}
+\label{sec:intro-scope}
+
+In our thesis, the primary contributions are:
+
+\begin{itemize}
+    \item \textbf{Local-Global Feature Extraction:} We propose the LoGo Encoder, which jointly captures fine-grained local patterns and long-range global dependencies. This encoder is further enhanced through a local-global teacher distillation pre-training strategy, enabling the learning of robust and discriminative feature embeddings under limited supervision with fast convergence.
+
+    \item \textbf{Marginal-Fairness Prototype Optimization:} We formulate marginal-fairness prototype learning as a constrained optimization problem and introduce an iterative refinement algorithm to derive stable, class-balanced prototypes. This process enhances intra-class compactness and inter-class separability, leading to more reliable prototype representations.
+
+    \item \textbf{Local-Global Similarity Fusion:} We fuse pixel-wise prototype similarity with local pattern correspondence to produce the final segmentation map. This fusion enforces both semantic alignment and spatial coherence, resulting in anatomically consistent and detail-preserving segmentation outcomes.
+\end{itemize}
+
+\newpage
+
+\section{Thesis structure}
+\label{sec:intro-thesis}
+
+There are five chapters in this thesis:
+
+\begin{itemize}
+    \item \textbf{Chapter \ref{ch:intro}: Introduction} This chapter provides an overview of the thesis, outlining the motivation behind the research, the specific goals it aims to achieve, and the scope of its contributions. It sets the stage for the subsequent chapters by introducing the problem domain and the proposed solutions.
+
+    \item \textbf{Chapter \ref{ch:theory}: Theoretical Background} This chapter delves into the fundamental theories and concepts underpinning the research. It covers essential topics such as few-shot segmentation, prototypical networks, and relevant deep learning architectures, providing the necessary theoretical foundation for understanding the proposed framework.
+
+    \item \textbf{Chapter \ref{ch:related-works}: Related Works} This chapter presents a comprehensive review of existing literature pertinent to few-shot learning, one-shot segmentation, and prototype-based learning in medical images segmentation. It critically evaluates current methodologies, identifies their strengths and limitations, and highlights the gaps that the proposed research aims to address.
+
+    \item \textbf{Chapter \ref{ch:solution}: Proposed Solution} This chapter details the core contributions of the thesis, introducing the Local-Global (LoGo) awareness prototypical segmentation framework. It elaborates on the design and implementation of the dual-pathway LoGo encoder, the marginal fairness prototype optimization, and the pixel-wise similarity fusion mechanism.
+
+    \item \textbf{Chapter \ref{ch:conclusion}: Conclusion} This chapter summarizes the key findings and contributions of the thesis. It discusses the implications of the proposed framework, evaluates its effectiveness based on experimental results, and suggests promising directions for future research in the field of medical image segmentation.
+\end{itemize}

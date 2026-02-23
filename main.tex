@@ -1,0 +1,131 @@
+\documentclass[12pt]{report}
+\usepackage[fontsize=12pt]{scrextend}
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=2cm]{geometry}
+% \usepackage{svg}
+\usepackage{tcolorbox}
+\usepackage{tgtermes}
+% \usepackage{fontspec}
+\usepackage[backend=biber,style=ieee]{biblatex}
+\addbibresource{refs.bib}
+% \usepackage{pgfsys}
+% \usepackage{transparent}
+% \setmainfont{Times New Roman}
+\usepackage{amsthm}  % provides theorem environments
+\newtheorem{definition}{Definition}
+\usepackage{eso-pic}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usetikzlibrary{positioning}
+\usepackage{anyfontsize}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{lscape}
+\linespread{1.5}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{algorithm} 
+\usepackage{algpseudocode}
+\usepackage{xcolor}       % Để định nghĩa màu
+\usepackage{booktabs}   % Fixes \toprule, \midrule, \bottomrule, \cmidrule
+\usepackage[table]{xcolor} % Fixes \rowcolor
+\usepackage{makecell}
+\usepackage{siunitx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+
+% Định nghĩa kiểu khung
+\tcbset{
+    myframe/.style={
+        enhanced,
+        colframe=red,
+        sharp corners,
+        boxrule=0.5mm, % Độ dày viền
+        left=0mm,
+        right=0mm,
+        top=0mm,
+        bottom=0mm,
+    }
+}
+
+% Gói cho mục lục
+\usepackage{tocloft}
+% \renewcommand{\cftsecleader}{\tcbstart\dotfill\tcbend} % Thay thế 'dotfill' bằng khung
+\usepackage{xcolor} % Ensure this is loaded (it is in your file)
+\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
+
+
+% \hypersetup{
+%     colorlinks=true,      % Bật màu sắc cho liên kết
+%     linkcolor=red,        % Màu liên kết là đỏ
+%     linkbordercolor=red,  % Màu viền liên kết là đỏ
+%     urlcolor=blue         % Màu liên kết URL là xanh dương
+% }
+% \hypersetup{
+%     colorlinks,
+%     citecolor=black,
+%     filecolor=black,
+%     linkcolor=black,
+%     urlcolor=black
+% }
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{appendix}
+
+\lstset{
+    basicstyle=\small\ttfamily, % Small font size
+    numbers=left,
+    frame=single,
+}
+\usepackage{pgfplots} % Required for the TikZ figure
+\pgfplotsset{compat=1.17} % Ensure compatibility with the latest version of pgfplots
+
+\newcommand{\Khang}[1]{\textcolor{red!70!pink}{\textbf{\textit{#1}}}}
+
+% Define chapter font size to be 15pt
+\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+% \usepackage[style=ieee, backend=biber]{biblatex} 
+% Rename the bibliography section title
+\renewcommand{\bibname}{References}
+
+\begin{document}
+\input{chapters/common/cover-page}
+% \setmainfont{Times New Roman}
+
+\clearpage
+\pagenumbering{roman}
+
+\input{chapters/common/abstract.tex}
+
+\input{chapters/common/table-of-glossary.tex}
+\newpage
+% \input{chapters/list-of-abbreviations}
+
+\tableofcontents
+\newpage
+
+\listoftables
+\newpage
+
+
+\listoffigures
+\newpage
+
+\pagenumbering{arabic}
+
+\input{chapters/introduction/introduction.tex}
+
+% \renewcommand{\bibname}{References}
+% \input{chapters/appendices/appendix}
+% \input{chapters/appendixes/plan}
+% add appendix later on
+\printbibliography
+
+\end{document}
